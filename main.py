@@ -7,5 +7,13 @@ url = "https://newsapi.org/v2/everything?q=apple&" \
       "apiKey=da0e6e21135e4b11b4eec62705093df8"
 
 request = requests.get(url=url)
-content = request.text
-p.pprint(content)
+# Json returns dictionary but text file return plain string which is not helpful.
+content = request.json()
+
+# ACCESSING DIFFERENT PART OF ARTICLE.
+print(len(content["articles"]))
+for article in content["articles"]:
+      p.pprint(article["author"])
+      p.pprint(article["title"])
+      p.pprint(article["description"])
+
