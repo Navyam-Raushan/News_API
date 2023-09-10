@@ -18,8 +18,10 @@ author = []
 description = []
 
 for article in content["articles"]:
-    title.append(article["title"])
-    author.append(article["author"])
+    if article["title"] is not None:
+        title.append(article["title"])
+    if article["author"] is not None:
+        author.append(article["author"])
     description.append(article["description"])
 
 chosen_title = random.choice(title)
