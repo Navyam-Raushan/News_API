@@ -1,5 +1,7 @@
 import requests
-import pprint as p
+import random
+from pprint import pprint
+from send_mail import send_gmail
 
 API_KEY = 'da0e6e21135e4b11b4eec62705093df8'
 url = "https://newsapi.org/v2/everything?q=apple&" \
@@ -11,9 +13,31 @@ request = requests.get(url=url)
 content = request.json()
 
 # ACCESSING DIFFERENT PART OF ARTICLE.
-print(len(content["articles"]))
-for article in content["articles"]:
-      p.pprint(article["author"])
-      p.pprint(article["title"])
-      p.pprint(article["description"])
+title = []
+author = []
+description = []
 
+for article in content["articles"]:
+    title.append(article["title"])
+    author.append(article["author"])
+    description.append(article["description"])
+
+chosen_title = random.choice(title)
+
+index = title.index(chosen_title)
+chosen_author = author[index]
+chosen_des = description[index]
+
+# the encoding is causing problem only.
+chosen_des = chosen_des.encode("utf-8")
+
+message = f"""\
+Subject: {chosen_title}
+
+From: {chosen_author}
+ 
+{chosen_des}
+"""
+
+send_gmail(message)
+print(message)
